@@ -13,6 +13,7 @@
 //
 package fenwick
 
+// List represents a Fenwick tree.
 type List struct {
 	data []int64
 }
