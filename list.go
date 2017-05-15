@@ -13,7 +13,8 @@
 //
 package fenwick
 
-// List represents a Fenwick tree.
+// List represents a list of numbers with support for efficient
+// prefix sum computation. The zero value is an empty list.
 type List struct {
 	// The tree slice stores range sums of an underlying array t.
 	// To compute the prefix sum t[0] + t[1] + t[k-1], add elements
