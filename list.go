@@ -75,14 +75,6 @@ func (l *List) Sum(i int) int64 {
 	return sum
 }
 
-/*
-// Append appends a new element to the end of the list.
-func (l *List) Append(n int64) {
-	len := len(l.tree)
-	l.tree = append(l.tree, n)
-}
-*/
-
 // SumRange returns the sum of the elements from index i to index j-1.
 func (l *List) SumRange(i, j int) int64 {
 	var sum int64
@@ -96,3 +88,11 @@ func (l *List) SumRange(i, j int) int64 {
 	}
 	return sum
 }
+
+/*
+// Append appends a new element to the end of the list.
+func (l *List) Append(n int64) {
+	len := len(l.tree)
+	l.tree = append(l.tree, n)
+}
+*/
