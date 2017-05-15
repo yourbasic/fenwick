@@ -89,10 +89,9 @@ func (l *List) SumRange(i, j int) int64 {
 	return sum
 }
 
-/*
 // Append appends a new element to the end of the list.
 func (l *List) Append(n int64) {
-	len := len(l.tree)
-	l.tree = append(l.tree, n)
+	i := len(l.tree)
+	l.tree = append(l.tree, 0)
+	l.tree[i] = n - l.Get(i)
 }
-*/

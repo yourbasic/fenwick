@@ -91,22 +91,10 @@ func TestSumRange(t *testing.T) {
 	}
 }
 
-/*
 func TestAppend(t *testing.T) {
-	l := New(1, 2, 3, -4)
-	l.Append(5)
-	if n := l.Get(4); n != 5 {
-		t.Errorf("Get(4) = %d; want %d", n, 5)
-	}
-	if n := l.Sum(5); n != 7 {
-		t.Errorf("Sum(5) = %d; want %d", n, 7)
-	}
-	if n := l.Len(); n != 5 {
-		t.Errorf("Len() = %d; want %d", n, 5)
-	}
 	n := 50
 	a := make([]int64, n)
-	l = New()
+	l := New()
 	for i := range a {
 		a[i] = int64(i)
 		l.Append(int64(i))
@@ -126,6 +114,4 @@ func TestAppend(t *testing.T) {
 			t.Errorf("Sum(%d) = %d; want %d", i, l.Sum(i), res)
 		}
 	}
-
 }
-*/
