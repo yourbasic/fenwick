@@ -18,6 +18,18 @@ func TestGet(t *testing.T) {
 	if n := l.Get(3); n != -4 {
 		t.Errorf("Get(3) = %d; want %d", n, -4)
 	}
+	n := 50
+	a := make([]int64, n)
+	l = New()
+	for i := range a {
+		a[i] = int64(i)
+	}
+	l = New(a...)
+	for i := range a {
+		if a[i] != l.Get(i) {
+			t.Errorf("Get(%d) = %d; want %d", i, l.Get(i), a[i])
+		}
+	}
 }
 
 func TestSet(t *testing.T) {
@@ -42,6 +54,19 @@ func TestSet(t *testing.T) {
 	}
 	if n := l.Get(3); n != -4 {
 		t.Errorf("Get(3) = %d; want %d", n, -4)
+	}
+	n := 50
+	a := make([]int64, n)
+	l = New()
+	for i := range a {
+		a[i] = int64(i)
+	}
+	l = New(a...)
+	for i := range a {
+		l.Set(i, 100)
+		if l.Get(i) != 100 {
+			t.Errorf("Get(%d) = %d; want %d", i, l.Get(i), 100)
+		}
 	}
 }
 
@@ -68,6 +93,19 @@ func TestAdd(t *testing.T) {
 	if n := l.Get(3); n != -4 {
 		t.Errorf("Get(3) = %d; want %d", n, -4)
 	}
+	n := 50
+	a := make([]int64, n)
+	l = New()
+	for i := range a {
+		a[i] = int64(i)
+	}
+	l = New(a...)
+	for i := range a {
+		l.Add(i, 100)
+		if l.Get(i) != a[i]+100 {
+			t.Errorf("Get(%d) = %d; want %d", i, l.Get(i), a[i]+100)
+		}
+	}
 }
 
 func TestSum(t *testing.T) {
@@ -84,8 +122,25 @@ func TestSum(t *testing.T) {
 	if n := l.Sum(4); n != 2 {
 		t.Errorf("Sum(4) = %d; want %d", n, 2)
 	}
+	n := 50
+	a := make([]int64, n)
+	l = New()
+	for i := range a {
+		a[i] = int64(i)
+	}
+	l = New(a...)
+	for i := range a {
+		var res int64
+		for j := 0; j < i; j++ {
+			res += a[j]
+		}
+		if l.Sum(i) != res {
+			t.Errorf("Sum(%d) = %d; want %d", i, l.Get(i), res)
+		}
+	}
 }
 
+/*
 func TestAppend(t *testing.T) {
 	l := New(1, 2, 3, -4)
 	l.Append(5)
@@ -98,7 +153,31 @@ func TestAppend(t *testing.T) {
 	if n := l.Len(); n != 5 {
 		t.Errorf("Len() = %d; want %d", n, 5)
 	}
+	n := 50
+	a := make([]int64, n)
+	l = New()
+	for i := range a {
+		a[i] = int64(i)
+		l.Append(int64(i))
+	}
+	if l.Len() != n {
+		t.Errorf("Len() = %d; want %d", l.Len(), n)
+	}
+	for i := range a {
+		var res int64
+		for j := 0; j < i; j++ {
+			res += a[j]
+		}
+		if l.Get(i) != a[i] {
+			t.Errorf("Get(%d) = %d; want %d", i, l.Get(i), a[i])
+		}
+		if l.Sum(i) != res {
+			t.Errorf("Sum(%d) = %d; want %d", i, l.Sum(i), res)
+		}
+	}
+
 }
+*/
 
 func TestSumRange(t *testing.T) {
 	l := New(1, 2, 3, -4)
