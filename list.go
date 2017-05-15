@@ -1,4 +1,4 @@
-// Package fenwick provides a list data structure with prefix sums.
+// Package fenwick provides a list data structure supporting prefix sums.
 //
 // A Fenwick tree, or binary indexed tree, is a space-efficient list
 // data structure that can efficiently update elements and calculate
@@ -15,27 +15,37 @@ package fenwick
 
 // List represents a Fenwick tree.
 type List struct {
-	data []int64
+	// The tree slice stores range sums of an underlying array t.
+	// To compute the prefix sum t[0] + t[1] + t[k-1], add elements
+	// which correspond to each 1 bit in the binary expansion of k.
+	//
+	// For example, this is how the sum of the 13 first elements
+	// in t is computed: 13 is 1101₂ in binary, so the elements
+	// at indices 1101₂ - 1, 1100₂ - 1, and 1000₂ - 1  are added;
+	// they contain the range sums t[12], t[8] + … t[11], and
+	// t[0] + … + t[7], respectively.
+	//
+	tree []int64
 }
 
 // New creates a new list with the given elements.
 func New(n ...int64) *List {
 	len := len(n)
-	a := make([]int64, len)
-	copy(a, n)
-	for i := range a {
+	t := make([]int64, len)
+	copy(t, n)
+	for i := range t {
 		if j := i | (i + 1); j < len {
-			a[j] += a[i]
+			t[j] += t[i]
 		}
 	}
 	return &List{
-		data: a,
+		tree: t,
 	}
 }
 
 // Len returns the number of elements in the list.
 func (l *List) Len() int {
-	return len(l.data)
+	return len(l.tree)
 }
 
 // Get returns the element at index i.
@@ -50,8 +60,8 @@ func (l *List) Set(i int, n int64) {
 
 // Add adds n to the element at index i.
 func (l *List) Add(i int, n int64) {
-	for len := len(l.data); i < len; i |= i + 1 {
-		l.data[i] += n
+	for len := len(l.tree); i < len; i |= i + 1 {
+		l.tree[i] += n
 	}
 }
 
@@ -59,7 +69,7 @@ func (l *List) Add(i int, n int64) {
 func (l *List) Sum(i int) int64 {
 	var sum int64
 	for i > 0 {
-		sum += l.data[i-1]
+		sum += l.tree[i-1]
 		i -= i & -i
 	}
 	return sum
@@ -67,8 +77,8 @@ func (l *List) Sum(i int) int64 {
 
 // Append appens a new element to the end of the list.
 func (l *List) Append(n int64) {
-	len := len(l.data)
-	l.data = append(l.data, 0)
+	len := len(l.tree)
+	l.tree = append(l.tree, 0)
 	l.Add(len, n)
 }
 
@@ -76,11 +86,11 @@ func (l *List) Append(n int64) {
 func (l *List) SumRange(i, j int) int64 {
 	var sum int64
 	for j > i {
-		sum += l.data[j-1]
+		sum += l.tree[j-1]
 		j -= j & -j
 	}
 	for i > j {
-		sum -= l.data[i-1]
+		sum -= l.tree[i-1]
 		i -= i & -i
 	}
 	return sum
