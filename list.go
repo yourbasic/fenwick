@@ -51,12 +51,22 @@ func (l *List) Len() int {
 
 // Get returns the element at index i.
 func (l *List) Get(i int) int64 {
-	return l.SumRange(i, i+1)
+	sum := l.tree[i]
+	j := i + 1
+	j -= j & -j
+	for i > j {
+		sum -= l.tree[i-1]
+		i -= i & -i
+	}
+	return sum
 }
 
 // Set sets the element at index i to n.
 func (l *List) Set(i int, n int64) {
-	l.Add(i, n-l.Get(i))
+	n -= l.Get(i)
+	for len := len(l.tree); i < len; i |= i + 1 {
+		l.tree[i] += n
+	}
 }
 
 // Add adds n to the element at index i.
