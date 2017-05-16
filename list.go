@@ -13,7 +13,8 @@
 //
 package fenwick
 
-// List represents a Fenwick tree.
+// List represents a list of numbers with support for efficient
+// prefix sum computation. The zero value is an empty list.
 type List struct {
 	// The tree slice stores range sums of an underlying array t.
 	// To compute the prefix sum t[0] + t[1] + t[k-1], add elements
@@ -50,12 +51,22 @@ func (l *List) Len() int {
 
 // Get returns the element at index i.
 func (l *List) Get(i int) int64 {
-	return l.SumRange(i, i+1)
+	sum := l.tree[i]
+	j := i + 1
+	j -= j & -j
+	for i > j {
+		sum -= l.tree[i-1]
+		i -= i & -i
+	}
+	return sum
 }
 
 // Set sets the element at index i to n.
 func (l *List) Set(i int, n int64) {
-	l.Add(i, n-l.Get(i))
+	n -= l.Get(i)
+	for len := len(l.tree); i < len; i |= i + 1 {
+		l.tree[i] += n
+	}
 }
 
 // Add adds n to the element at index i.

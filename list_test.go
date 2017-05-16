@@ -5,13 +5,12 @@ import (
 )
 
 func TestGet(t *testing.T) {
-	n := 50
+	n := 100
 	a := make([]int64, n)
-	l := New()
 	for i := range a {
 		a[i] = int64(i)
 	}
-	l = New(a...)
+	l := New(a...)
 	for i := range a {
 		if a[i] != l.Get(i) {
 			t.Errorf("Get(%d) = %d; want %d", i, l.Get(i), a[i])
@@ -20,13 +19,12 @@ func TestGet(t *testing.T) {
 }
 
 func TestSet(t *testing.T) {
-	n := 50
+	n := 100
 	a := make([]int64, n)
-	l := New()
 	for i := range a {
 		a[i] = int64(i)
 	}
-	l = New(a...)
+	l := New(a...)
 	for i := range a {
 		l.Set(i, 100)
 		if l.Get(i) != 100 {
@@ -36,13 +34,12 @@ func TestSet(t *testing.T) {
 }
 
 func TestAdd(t *testing.T) {
-	n := 50
+	n := 100
 	a := make([]int64, n)
-	l := New()
 	for i := range a {
 		a[i] = int64(i)
 	}
-	l = New(a...)
+	l := New(a...)
 	for i := range a {
 		l.Add(i, 100)
 		if l.Get(i) != a[i]+100 {
@@ -52,13 +49,12 @@ func TestAdd(t *testing.T) {
 }
 
 func TestSum(t *testing.T) {
-	n := 50
+	n := 100
 	a := make([]int64, n)
-	l := New()
 	for i := range a {
 		a[i] = int64(i)
 	}
-	l = New(a...)
+	l := New(a...)
 	for i := range a {
 		var res int64
 		for j := 0; j < i; j++ {
@@ -71,13 +67,12 @@ func TestSum(t *testing.T) {
 }
 
 func TestSumRange(t *testing.T) {
-	n := 50
+	n := 100
 	a := make([]int64, n)
-	l := New()
 	for i := range a {
 		a[i] = int64(i)
 	}
-	l = New(a...)
+	l := New(a...)
 	for i := range a {
 		for j := i; j < n; j++ {
 			var res int64
@@ -92,9 +87,12 @@ func TestSumRange(t *testing.T) {
 }
 
 func TestAppend(t *testing.T) {
-	n := 50
+	n := 100
 	a := make([]int64, n)
-	l := New()
+	l := new(List)
+	if l.Len() != 0 {
+		t.Errorf("Len() = %d; want %d", l.Len(), 0)
+	}
 	for i := range a {
 		a[i] = int64(i)
 		l.Append(int64(i))
