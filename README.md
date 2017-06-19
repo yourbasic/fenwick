@@ -2,6 +2,8 @@
 
 ### Golang list data structure supporting prefix sums
 
+[![GoDoc](https://godoc.org/github.com/yourbasic/fenwick?status.svg)][godoc-fenwick]
+
 A Fenwick tree, or binary indexed tree, is a space-efficient
 list data structure that can efficiently update elements and
 calculate prefix sums in a list of numbers.
