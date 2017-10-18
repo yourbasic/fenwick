@@ -6,7 +6,7 @@ A Fenwick tree, or binary indexed tree, is a space-efficient
 list data structure that can efficiently update elements and
 calculate prefix sums in a list of numbers.
 
-![Checklist](checklist.jpg)
+![Checklist](res/checklist.jpg)
 
 ### Installation
 
